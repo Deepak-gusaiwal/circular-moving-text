@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moving Text</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    :root{
+        --content-holder-size:500px;
+        --logo-div-size:calc(var(--content-holder-size)*.80);
+        --transform-origin:calc(var(--content-holder-size)*.50);
+    }
+    body{
+        background-color: red;
+        transition: 5s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* min-height: 100vh; */
+    }
+    .content-holder{
+        width: var(--content-holder-size);
+        height:var(--content-holder-size);
+        /* background-color: black; */
+        color: white;
+        position: relative;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+ 
+ .logo{
+     position: absolute;
+     width: var(--logo-div-size);
+     height: var(--logo-div-size);
+     background-image: url('./rengoku3.gif');
+     background-size: cover;
+     background-position: center;
+     border-radius: 50%;
+     filter: contrast(1.5) brightness(1.5);
+     z-index: 1;
+     overflow: hidden;
+     display:flex;
+     justify-content: center;
+     align-items: center;
+ }
+ .logo::before{
+     content: '';
+     position: absolute;
+     background-color: red;
+     opacity: 0.6;
+     width:100%;
+     height:100%;
+     z-index: -1;
+     transform: translateY(100%);
+     transition: 500ms;
+     border-radius: 50%;
+ }
+ .logo:hover::before{
+    transform: translateY(0%);
+    cursor: pointer;
+ }
+ .content{
+     position: absolute;
+     z-index: 5;
+     font-size: 2.8rem;
+     text-transform: uppercase;
+     font-weight: 800;
+     transform: rotate(90deg);
+     transition: 500ms;
+     opacity: 0;
+     -webkit-background-clip: text;
+        background-image: url('./fire.txt');
+        color: transparent;
+        text-align: center;
+ }
+ .logo:hover .content{
+    transform: rotate(0deg);
+    opacity: 1;
+ }
+ .text{
+     position: absolute;
+     width: 100%;
+     height: 100%;
+     border-radius: 50%;
+     text-transform: capitalize;
+     animation: rotateText 5s linear infinite;
+     
+ }
+ @keyframes rotateText {
+     0%{
+         transform: rotate(-360deg);
+     }100%{
+         transform: rotate(0deg);
+     }
+ }
+ .text span{
+     position: absolute;
+     font-size: 1.8rem;
+     font-weight: 800;
+     transform-origin: 0 var(--transform-origin);
+     left: 50%;
+     
+ }
+</style>
+<body>
+    <div class="content-holder">
+        <div class="logo">
+            <div class="content">flame hashira</div>
+        </div>
+        <div class="text">
+            <p>This is kyojuro rengoku the flame hashira</p>
+        </div>
+        
+        
+    </div>
+    <script>
+        let text = document.querySelector('.text p');
+        //here we created the array of the innert text of the variable text;
+        let splitarr = text.innerText.split('');
+
+        // here we create an another variable html which return us the html elements/spans which holds the every element of the splitarr
+        let html = splitarr.map((element,index)=>{
+            return `<span style="transform: rotate(${index*8.5}deg);">${element}</span>`
+        }).join(''); // join method will rejoined the every elment as a string (removes ',')
+        text.innerHTML = html;// here we insert it in the dom;
+
+    </script>
+</body>
+</html>
